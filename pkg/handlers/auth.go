@@ -37,7 +37,7 @@ type (
 		auth *services.AuthClient
 		mail *services.MailClient
 		orm  *ent.Client
-		*services.TemplateRenderer
+		services.TemplateRendererIface
 	}
 
 	forgotPasswordForm struct {
@@ -71,7 +71,7 @@ func init() {
 }
 
 func (h *Auth) Init(c *services.Container) error {
-	h.TemplateRenderer = c.TemplateRenderer
+	h.TemplateRendererIface = c.TemplateRenderer
 	h.orm = c.ORM
 	h.auth = c.Auth
 	h.mail = c.Mail

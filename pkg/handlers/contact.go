@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"fmt"
+
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 	"github.com/mikestefanello/pagoda/pkg/form"
@@ -18,7 +19,7 @@ const (
 type (
 	Contact struct {
 		mail *services.MailClient
-		*services.TemplateRenderer
+		services.TemplateRendererIface
 	}
 
 	contactForm struct {
@@ -34,7 +35,7 @@ func init() {
 }
 
 func (h *Contact) Init(c *services.Container) error {
-	h.TemplateRenderer = c.TemplateRenderer
+	h.TemplateRendererIface = c.TemplateRenderer
 	h.mail = c.Mail
 	return nil
 }

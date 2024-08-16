@@ -20,7 +20,7 @@ type (
 		config *config.Config
 
 		// templates stores the template renderer
-		templates *TemplateRenderer
+		templates TemplateRendererIface
 	}
 
 	// mail represents an email to be sent
@@ -36,7 +36,7 @@ type (
 )
 
 // NewMailClient creates a new MailClient
-func NewMailClient(cfg *config.Config, templates *TemplateRenderer) (*MailClient, error) {
+func NewMailClient(cfg *config.Config, templates TemplateRendererIface) (*MailClient, error) {
 	return &MailClient{
 		config:    cfg,
 		templates: templates,

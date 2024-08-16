@@ -2,9 +2,10 @@ package handlers
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/mikestefanello/backlite"
 	"github.com/mikestefanello/pagoda/pkg/msg"
-	"time"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
@@ -23,7 +24,7 @@ const (
 type (
 	Task struct {
 		tasks *backlite.Client
-		*services.TemplateRenderer
+		services.TemplateRendererIface
 	}
 
 	taskForm struct {
@@ -38,7 +39,7 @@ func init() {
 }
 
 func (h *Task) Init(c *services.Container) error {
-	h.TemplateRenderer = c.TemplateRenderer
+	h.TemplateRendererIface = c.TemplateRenderer
 	h.tasks = c.Tasks
 	return nil
 }

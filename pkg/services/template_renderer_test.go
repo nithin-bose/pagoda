@@ -23,7 +23,7 @@ func TestTemplateRenderer(t *testing.T) {
 	id := "parse"
 
 	// Should not exist yet
-	_, err := c.TemplateRenderer.Load(group, id)
+	_, err := c.TemplateRenderer.(*TemplateRenderer).Load(group, id)
 	assert.Error(t, err)
 
 	// Parse in to the cache
@@ -38,7 +38,7 @@ func TestTemplateRenderer(t *testing.T) {
 	require.NoError(t, err)
 
 	// Should exist now
-	parsed, err := c.TemplateRenderer.Load(group, id)
+	parsed, err := c.TemplateRenderer.(*TemplateRenderer).Load(group, id)
 	require.NoError(t, err)
 
 	// Check that all expected templates are included
@@ -114,7 +114,7 @@ func TestTemplateRenderer_RenderPage(t *testing.T) {
 		}
 
 		// Check the template cache
-		parsed, err := c.TemplateRenderer.Load("page", string(p.Name))
+		parsed, err := c.TemplateRenderer.(*TemplateRenderer).Load("page", string(p.Name))
 		require.NoError(t, err)
 
 		// Check that all expected templates were parsed.
@@ -147,7 +147,7 @@ func TestTemplateRenderer_RenderPage(t *testing.T) {
 		assert.Equal(t, "trigger", ctx.Response().Header().Get(htmx.HeaderTrigger))
 
 		// Check the template cache
-		parsed, err := c.TemplateRenderer.Load("page:htmx", string(p.Name))
+		parsed, err := c.TemplateRenderer.(*TemplateRenderer).Load("page:htmx", string(p.Name))
 		require.NoError(t, err)
 
 		// Check that all expected templates were parsed.

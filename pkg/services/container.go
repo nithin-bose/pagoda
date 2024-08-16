@@ -4,10 +4,11 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"github.com/mikestefanello/backlite"
 	"log/slog"
 	"os"
 	"strings"
+
+	"github.com/mikestefanello/backlite"
 
 	entsql "entgo.io/ent/dialect/sql"
 	"github.com/labstack/echo/v4"
@@ -16,10 +17,17 @@ import (
 	"github.com/mikestefanello/pagoda/ent"
 	"github.com/mikestefanello/pagoda/pkg/funcmap"
 	"github.com/mikestefanello/pagoda/pkg/log"
+	"github.com/mikestefanello/pagoda/pkg/page"
 
 	// Require by ent
 	_ "github.com/mikestefanello/pagoda/ent/runtime"
 )
+
+type TemplateRendererIface interface {
+	Parse() *templateBuilder
+	RenderPage(ctx echo.Context, page page.Page) error
+	GetCachedPage(ctx echo.Context, url string) (*CachedPage, error)
+}
 
 // Container contains all services used by the application and provides an easy way to handle dependency
 // injection including within tests
@@ -49,7 +57,7 @@ type Container struct {
 	Auth *AuthClient
 
 	// TemplateRenderer stores a service to easily render and cache templates
-	TemplateRenderer *TemplateRenderer
+	TemplateRenderer TemplateRendererIface
 
 	// Tasks stores the task client
 	Tasks *backlite.Client

@@ -2,12 +2,13 @@ package handlers
 
 import (
 	"errors"
+	"time"
+
 	"github.com/labstack/echo/v4"
 	"github.com/mikestefanello/pagoda/pkg/form"
 	"github.com/mikestefanello/pagoda/pkg/page"
 	"github.com/mikestefanello/pagoda/pkg/services"
 	"github.com/mikestefanello/pagoda/templates"
-	"time"
 )
 
 const (
@@ -18,7 +19,7 @@ const (
 type (
 	Cache struct {
 		cache *services.CacheClient
-		*services.TemplateRenderer
+		services.TemplateRendererIface
 	}
 
 	cacheForm struct {
@@ -32,7 +33,7 @@ func init() {
 }
 
 func (h *Cache) Init(c *services.Container) error {
-	h.TemplateRenderer = c.TemplateRenderer
+	h.TemplateRendererIface = c.TemplateRenderer
 	h.cache = c.Cache
 	return nil
 }

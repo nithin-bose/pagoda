@@ -17,7 +17,7 @@ const (
 
 type (
 	Pages struct {
-		*services.TemplateRenderer
+		services.TemplateRendererIface
 	}
 
 	post struct {
@@ -42,7 +42,7 @@ func init() {
 }
 
 func (h *Pages) Init(c *services.Container) error {
-	h.TemplateRenderer = c.TemplateRenderer
+	h.TemplateRendererIface = c.TemplateRenderer
 	return nil
 }
 
