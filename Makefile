@@ -6,7 +6,7 @@ templ-install:
 # Generate templ
 .PHONY: templ-gen
 templ-gen:
-	templ fmt ./templ
+	templ fmt ./templates
 	templ generate
 
 # Install Ent code-generation module
@@ -26,7 +26,7 @@ ent-new:
 
 # Run the application
 .PHONY: run
-run:
+run: templ-gen
 	clear
 	go run cmd/web/main.go
 

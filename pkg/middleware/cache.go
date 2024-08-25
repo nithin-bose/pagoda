@@ -16,7 +16,7 @@ import (
 // ServeCachedPage attempts to load a page from the cache by matching on the complete request URL
 // If a page is cached for the requested URL, it will be served here and the request terminated.
 // Any request made by an authenticated user or that is not a GET will be skipped.
-func ServeCachedPage(t services.TemplateRendererIface) echo.MiddlewareFunc {
+func ServeCachedPage(t *services.TemplateRenderer) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(ctx echo.Context) error {
 			// Skip non GET requests

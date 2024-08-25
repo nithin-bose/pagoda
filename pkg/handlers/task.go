@@ -5,7 +5,10 @@ import (
 	"time"
 
 	"github.com/mikestefanello/backlite"
+	"github.com/mikestefanello/pagoda/pkg/helpers"
 	"github.com/mikestefanello/pagoda/pkg/msg"
+	"github.com/mikestefanello/pagoda/templates/layouts"
+	"github.com/mikestefanello/pagoda/templates/pages"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
@@ -13,7 +16,6 @@ import (
 	"github.com/mikestefanello/pagoda/pkg/page"
 	"github.com/mikestefanello/pagoda/pkg/services"
 	"github.com/mikestefanello/pagoda/pkg/tasks"
-	"github.com/mikestefanello/pagoda/templates"
 )
 
 const (
@@ -24,13 +26,7 @@ const (
 type (
 	Task struct {
 		tasks *backlite.Client
-		services.TemplateRendererIface
-	}
-
-	TaskForm struct {
-		Delay   int    `form:"delay" validate:"gte=0"`
-		Message string `form:"message" validate:"required"`
-		form.Submission
+		*services.TemplateRenderer
 	}
 )
 
@@ -39,7 +35,7 @@ func init() {
 }
 
 func (h *Task) Init(c *services.Container) error {
-	h.TemplateRendererIface = c.TemplateRenderer
+	h.TemplateRenderer = c.TemplateRenderer
 	h.tasks = c.Tasks
 	return nil
 }
@@ -51,16 +47,15 @@ func (h *Task) Routes(g *echo.Group) {
 
 func (h *Task) Page(ctx echo.Context) error {
 	p := page.New(ctx)
-	p.Layout = templates.LayoutMain
-	p.Name = templates.PageTask
 	p.Title = "Create a task"
-	p.Form = form.Get[TaskForm](ctx)
+
+	p.TemplComponent = layouts.Main(pages.Task(form.Get[helpers.TaskForm](ctx)))
 
 	return h.RenderPage(ctx, p)
 }
 
 func (h *Task) Submit(ctx echo.Context) error {
-	var input TaskForm
+	var input helpers.TaskForm
 
 	err := form.Submit(ctx, &input)
 

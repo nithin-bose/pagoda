@@ -1,0 +1,18 @@
+package pages
+
+import (
+	"fmt"
+	"github.com/mikestefanello/pagoda/templates/components"
+)
+
+templ Error() {
+	if components.Page(ctx).StatusCode > 500 {
+		<p>Please try again.</p>
+	} else if components.Page(ctx).StatusCode == 403 || components.Page(ctx).StatusCode == 401 {
+		<p>You are not authorized to view the requested page.</p>
+	} else if components.Page(ctx).StatusCode == 404 {
+		<p>Click <a href={ templ.URL(fmt.Sprintf("%s/%s", templ.URL("home"), components.Page(ctx).Path)) }>here</a> to return home</p>
+	} else {
+		<p>Something went wrong</p>
+	}
+}

@@ -45,7 +45,7 @@ func NewPageCache(cfg *config.Config, cache *CacheClient) *pageCache {
 }
 
 // cachePage caches the HTML for a given Page if the Page has caching enabled
-func (pc *pageCache) cachePage(ctx echo.Context, page page.Page, html *bytes.Buffer) {
+func (pc *pageCache) cachePage(ctx echo.Context, page *page.Page, html *bytes.Buffer) {
 	if !page.Cache.Enabled || page.IsAuth {
 		return
 	}

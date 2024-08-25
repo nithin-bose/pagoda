@@ -15,19 +15,11 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/mikestefanello/pagoda/config"
 	"github.com/mikestefanello/pagoda/ent"
-	"github.com/mikestefanello/pagoda/pkg/funcmap"
 	"github.com/mikestefanello/pagoda/pkg/log"
-	"github.com/mikestefanello/pagoda/pkg/page"
 
 	// Require by ent
 	_ "github.com/mikestefanello/pagoda/ent/runtime"
 )
-
-type TemplateRendererIface interface {
-	Parse() *templateBuilder
-	RenderPage(ctx echo.Context, page page.Page) error
-	GetCachedPage(ctx echo.Context, url string) (*CachedPage, error)
-}
 
 // Container contains all services used by the application and provides an easy way to handle dependency
 // injection including within tests
@@ -57,7 +49,7 @@ type Container struct {
 	Auth *AuthClient
 
 	// TemplateRenderer stores a service to easily render and cache templates
-	TemplateRenderer TemplateRendererIface
+	TemplateRenderer *TemplateRenderer
 
 	// Tasks stores the task client
 	Tasks *backlite.Client
@@ -169,7 +161,7 @@ func (c *Container) initAuth() {
 
 // initTemplateRenderer initializes the template renderer
 func (c *Container) initTemplateRenderer() {
-	c.TemplateRenderer = NewTemplateRenderer(c.Config, c.Cache, funcmap.NewFuncMap(c.Web))
+	c.TemplateRenderer = NewTemplateRenderer(c.Config, c.Cache)
 }
 
 // initMail initialize the mail client

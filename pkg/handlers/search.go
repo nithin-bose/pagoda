@@ -5,21 +5,18 @@ import (
 	"math/rand"
 
 	"github.com/labstack/echo/v4"
+	"github.com/mikestefanello/pagoda/pkg/helpers"
 	"github.com/mikestefanello/pagoda/pkg/page"
 	"github.com/mikestefanello/pagoda/pkg/services"
-	"github.com/mikestefanello/pagoda/templates"
+	"github.com/mikestefanello/pagoda/templates/layouts"
+	"github.com/mikestefanello/pagoda/templates/pages"
 )
 
 const routeNameSearch = "search"
 
 type (
 	Search struct {
-		services.TemplateRendererIface
-	}
-
-	SearchResult struct {
-		Title string
-		URL   string
+		*services.TemplateRenderer
 	}
 )
 
@@ -28,7 +25,7 @@ func init() {
 }
 
 func (h *Search) Init(c *services.Container) error {
-	h.TemplateRendererIface = c.TemplateRenderer
+	h.TemplateRenderer = c.TemplateRenderer
 	return nil
 }
 
@@ -37,24 +34,21 @@ func (h *Search) Routes(g *echo.Group) {
 }
 
 func (h *Search) Page(ctx echo.Context) error {
-	p := page.New(ctx)
-	p.Layout = templates.LayoutMain
-	p.Name = templates.PageSearch
-
 	// Fake search results
-	var results []SearchResult
+	var results []helpers.SearchResult
 	if search := ctx.QueryParam("query"); search != "" {
 		for i := 0; i < 5; i++ {
 			title := "Lorem ipsum example ddolor sit amet"
 			index := rand.Intn(len(title))
 			title = title[:index] + search + title[index:]
-			results = append(results, SearchResult{
+			results = append(results, helpers.SearchResult{
 				Title: title,
 				URL:   fmt.Sprintf("https://www.%s.com", search),
 			})
 		}
 	}
-	p.Data = results
 
+	p := page.New(ctx)
+	p.TemplComponent = layouts.Main(pages.Search(results))
 	return h.RenderPage(ctx, p)
 }

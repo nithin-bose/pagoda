@@ -10,13 +10,15 @@ import (
 	"github.com/mikestefanello/pagoda/ent/user"
 	"github.com/mikestefanello/pagoda/pkg/context"
 	"github.com/mikestefanello/pagoda/pkg/form"
+	"github.com/mikestefanello/pagoda/pkg/helpers"
 	"github.com/mikestefanello/pagoda/pkg/log"
 	"github.com/mikestefanello/pagoda/pkg/middleware"
 	"github.com/mikestefanello/pagoda/pkg/msg"
 	"github.com/mikestefanello/pagoda/pkg/page"
 	"github.com/mikestefanello/pagoda/pkg/redirect"
 	"github.com/mikestefanello/pagoda/pkg/services"
-	"github.com/mikestefanello/pagoda/templates"
+	"github.com/mikestefanello/pagoda/templates/layouts"
+	"github.com/mikestefanello/pagoda/templates/pages"
 )
 
 const (
@@ -37,32 +39,7 @@ type (
 		auth *services.AuthClient
 		mail *services.MailClient
 		orm  *ent.Client
-		services.TemplateRendererIface
-	}
-
-	ForgotPasswordForm struct {
-		Email string `form:"email" validate:"required,email"`
-		form.Submission
-	}
-
-	loginForm struct {
-		Email    string `form:"email" validate:"required,email"`
-		Password string `form:"password" validate:"required"`
-		form.Submission
-	}
-
-	RegisterForm struct {
-		Name            string `form:"name" validate:"required"`
-		Email           string `form:"email" validate:"required,email"`
-		Password        string `form:"password" validate:"required"`
-		ConfirmPassword string `form:"password-confirm" validate:"required,eqfield=Password"`
-		form.Submission
-	}
-
-	ResetPasswordForm struct {
-		Password        string `form:"password" validate:"required"`
-		ConfirmPassword string `form:"password-confirm" validate:"required,eqfield=Password"`
-		form.Submission
+		*services.TemplateRenderer
 	}
 )
 
@@ -71,7 +48,7 @@ func init() {
 }
 
 func (h *Auth) Init(c *services.Container) error {
-	h.TemplateRendererIface = c.TemplateRenderer
+	h.TemplateRenderer = c.TemplateRenderer
 	h.orm = c.ORM
 	h.auth = c.Auth
 	h.mail = c.Mail
@@ -100,16 +77,14 @@ func (h *Auth) Routes(g *echo.Group) {
 
 func (h *Auth) ForgotPasswordPage(ctx echo.Context) error {
 	p := page.New(ctx)
-	p.Layout = templates.LayoutAuth
-	p.Name = templates.PageForgotPassword
 	p.Title = "Forgot password"
-	p.Form = form.Get[ForgotPasswordForm](ctx)
+	p.TemplComponent = layouts.Auth(pages.ForgotPassword(form.Get[helpers.ForgotPasswordForm](ctx)))
 
 	return h.RenderPage(ctx, p)
 }
 
 func (h *Auth) ForgotPasswordSubmit(ctx echo.Context) error {
-	var input ForgotPasswordForm
+	var input helpers.ForgotPasswordForm
 
 	succeed := func() error {
 		form.Clear(ctx)
@@ -169,16 +144,14 @@ func (h *Auth) ForgotPasswordSubmit(ctx echo.Context) error {
 
 func (h *Auth) LoginPage(ctx echo.Context) error {
 	p := page.New(ctx)
-	p.Layout = templates.LayoutAuth
-	p.Name = templates.PageLogin
 	p.Title = "Log in"
-	p.Form = form.Get[loginForm](ctx)
+	p.TemplComponent = layouts.Auth(pages.Login(form.Get[helpers.LoginForm](ctx)))
 
 	return h.RenderPage(ctx, p)
 }
 
 func (h *Auth) LoginSubmit(ctx echo.Context) error {
-	var input loginForm
+	var input helpers.LoginForm
 
 	authFailed := func() error {
 		input.SetFieldError("Email", "")
@@ -243,16 +216,14 @@ func (h *Auth) Logout(ctx echo.Context) error {
 
 func (h *Auth) RegisterPage(ctx echo.Context) error {
 	p := page.New(ctx)
-	p.Layout = templates.LayoutAuth
-	p.Name = templates.PageRegister
 	p.Title = "Register"
-	p.Form = form.Get[RegisterForm](ctx)
+	p.TemplComponent = layouts.Auth(pages.Register(form.Get[helpers.RegisterForm](ctx)))
 
 	return h.RenderPage(ctx, p)
 }
 
 func (h *Auth) RegisterSubmit(ctx echo.Context) error {
-	var input RegisterForm
+	var input helpers.RegisterForm
 
 	err := form.Submit(ctx, &input)
 
@@ -349,16 +320,14 @@ func (h *Auth) sendVerificationEmail(ctx echo.Context, usr *ent.User) {
 
 func (h *Auth) ResetPasswordPage(ctx echo.Context) error {
 	p := page.New(ctx)
-	p.Layout = templates.LayoutAuth
-	p.Name = templates.PageResetPassword
 	p.Title = "Reset password"
-	p.Form = form.Get[ResetPasswordForm](ctx)
+	p.TemplComponent = layouts.Auth(pages.ResetPassword(form.Get[helpers.ResetPasswordForm](ctx)))
 
 	return h.RenderPage(ctx, p)
 }
 
 func (h *Auth) ResetPasswordSubmit(ctx echo.Context) error {
-	var input ResetPasswordForm
+	var input helpers.ResetPasswordForm
 
 	err := form.Submit(ctx, &input)
 
