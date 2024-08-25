@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"fmt"
-	"html/template"
 
 	"github.com/labstack/echo/v4"
 	"github.com/mikestefanello/pagoda/pkg/page"
@@ -20,20 +19,20 @@ type (
 		services.TemplateRendererIface
 	}
 
-	post struct {
+	Post struct {
 		Title string
 		Body  string
 	}
 
-	aboutData struct {
+	AboutData struct {
 		ShowCacheWarning bool
-		FrontendTabs     []aboutTab
-		BackendTabs      []aboutTab
+		FrontendTabs     []AboutTab
+		BackendTabs      []AboutTab
 	}
 
-	aboutTab struct {
+	AboutTab struct {
 		Title string
-		Body  template.HTML
+		Body  string
 	}
 )
 
@@ -64,12 +63,12 @@ func (h *Pages) Home(ctx echo.Context) error {
 }
 
 // fetchPosts is an mock example of fetching posts to illustrate how paging works
-func (h *Pages) fetchPosts(pager *page.Pager) []post {
+func (h *Pages) fetchPosts(pager *page.Pager) []Post {
 	pager.SetItems(20)
-	posts := make([]post, 20)
+	posts := make([]Post, 20)
 
 	for k := range posts {
-		posts[k] = post{
+		posts[k] = Post{
 			Title: fmt.Sprintf("Post example #%d", k+1),
 			Body:  fmt.Sprintf("Lorem ipsum example #%d ddolor sit amet, consectetur adipiscing elit. Nam elementum vulputate tristique.", k+1),
 		}
@@ -89,30 +88,30 @@ func (h *Pages) About(ctx echo.Context) error {
 
 	// A simple example of how the Data field can contain anything you want to send to the templates
 	// even though you wouldn't normally send markup like this
-	p.Data = aboutData{
+	p.Data = AboutData{
 		ShowCacheWarning: true,
-		FrontendTabs: []aboutTab{
+		FrontendTabs: []AboutTab{
 			{
 				Title: "HTMX",
-				Body:  template.HTML(`Completes HTML as a hypertext by providing attributes to AJAXify anything and much more. Visit <a href="https://htmx.org/">htmx.org</a> to learn more.`),
+				Body:  `Completes HTML as a hypertext by providing attributes to AJAXify anything and much more. Visit <a href="https://htmx.org/">htmx.org</a> to learn more.`,
 			},
 			{
 				Title: "Alpine.js",
-				Body:  template.HTML(`Drop-in, Vue-like functionality written directly in your markup. Visit <a href="https://alpinejs.dev/">alpinejs.dev</a> to learn more.`),
+				Body:  `Drop-in, Vue-like functionality written directly in your markup. Visit <a href="https://alpinejs.dev/">alpinejs.dev</a> to learn more.`,
 			},
 			{
 				Title: "Bulma",
-				Body:  template.HTML(`Ready-to-use frontend components that you can easily combine to build responsive web interfaces with no JavaScript requirements. Visit <a href="https://bulma.io/">bulma.io</a> to learn more.`),
+				Body:  `Ready-to-use frontend components that you can easily combine to build responsive web interfaces with no JavaScript requirements. Visit <a href="https://bulma.io/">bulma.io</a> to learn more.`,
 			},
 		},
-		BackendTabs: []aboutTab{
+		BackendTabs: []AboutTab{
 			{
 				Title: "Echo",
-				Body:  template.HTML(`High performance, extensible, minimalist Go web framework. Visit <a href="https://echo.labstack.com/">echo.labstack.com</a> to learn more.`),
+				Body:  `High performance, extensible, minimalist Go web framework. Visit <a href="https://echo.labstack.com/">echo.labstack.com</a> to learn more.`,
 			},
 			{
 				Title: "Ent",
-				Body:  template.HTML(`Simple, yet powerful ORM for modeling and querying data. Visit <a href="https://entgo.io/">entgo.io</a> to learn more.`),
+				Body:  `Simple, yet powerful ORM for modeling and querying data. Visit <a href="https://entgo.io/">entgo.io</a> to learn more.`,
 			},
 		},
 	}

@@ -1,0 +1,37 @@
+package pages
+
+import (
+	"fmt"
+	"github.com/mikestefanello/pagoda/pkg/handlers"
+	"github.com/mikestefanello/pagoda/pkg/page"
+	"github.com/mikestefanello/pagoda/templ/components"
+)
+
+templ Login(p *page.Page, form handlers.ForgotPasswordForm) {
+	<form method="post" hx-boost="true" action={ templ.URL("login.submit") }>
+		@components.Messages(p)
+		<div class="field">
+			<label for="email" class="label">Email address</label>
+			<div class="control">
+				<input id="email" name="email" type="email" class={ fmt.Sprintf("input %s", form.Submission.GetFieldStatusClass("Email")) } value={ form.Email }/>
+				@components.FieldErrors(form.Submission.GetFieldErrors("Email"))
+			</div>
+		</div>
+		<div class="field">
+			<label for="password" class="label">Password</label>
+			<div class="control">
+				<input id="password" type="password" name="password" placeholder="*******" class={ fmt.Sprintf("input %s", form.Submission.GetFieldStatusClass("Password")) }/>
+				@components.FieldErrors(form.Submission.GetFieldErrors("Password"))
+			</div>
+		</div>
+		<div class="field is-grouped">
+			<p class="control">
+				<button class="button is-primary">Log in</button>
+			</p>
+			<p class="control">
+				<a href={ templ.URL("home") } class="button is-light">Cancel</a>
+			</p>
+		</div>
+		@components.CSRF(p)
+	</form>
+}

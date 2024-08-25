@@ -27,7 +27,7 @@ type (
 		services.TemplateRendererIface
 	}
 
-	taskForm struct {
+	TaskForm struct {
 		Delay   int    `form:"delay" validate:"gte=0"`
 		Message string `form:"message" validate:"required"`
 		form.Submission
@@ -54,13 +54,13 @@ func (h *Task) Page(ctx echo.Context) error {
 	p.Layout = templates.LayoutMain
 	p.Name = templates.PageTask
 	p.Title = "Create a task"
-	p.Form = form.Get[taskForm](ctx)
+	p.Form = form.Get[TaskForm](ctx)
 
 	return h.RenderPage(ctx, p)
 }
 
 func (h *Task) Submit(ctx echo.Context) error {
-	var input taskForm
+	var input TaskForm
 
 	err := form.Submit(ctx, &input)
 

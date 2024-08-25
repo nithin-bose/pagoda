@@ -1,0 +1,28 @@
+package components
+
+import (
+	"fmt"
+	"github.com/mikestefanello/pagoda/pkg/page"
+)
+
+templ message(typ string, text string) {
+	<div class={ fmt.Sprintf("notification is-light is-%s", typ) } x-data="{show: true}" x-show="show">
+		<button class="delete" @click="show = false"></button>
+		{ text }
+	</div>
+}
+
+templ Messages(p *page.Page) {
+	for _, msg := range p.GetMessages("success") {
+		@message("success", msg)
+	}
+	for _, msg := range p.GetMessages("info") {
+		@message("info", msg)
+	}
+	for _, msg := range p.GetMessages("warning") {
+		@message("warning", msg)
+	}
+	for _, msg := range p.GetMessages("danger") {
+		@message("danger", msg)
+	}
+}

@@ -1,0 +1,9 @@
+package pages
+
+import "github.com/mikestefanello/pagoda/pkg/handlers"
+
+templ Search(searchResults []handlers.SearchResult) {
+	for _, result := range searchResults {
+		<a class="panel-block" href={ templ.URL(result.URL) }>{ result.Title }</a>
+	}
+}

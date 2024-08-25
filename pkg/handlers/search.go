@@ -17,7 +17,7 @@ type (
 		services.TemplateRendererIface
 	}
 
-	searchResult struct {
+	SearchResult struct {
 		Title string
 		URL   string
 	}
@@ -42,13 +42,13 @@ func (h *Search) Page(ctx echo.Context) error {
 	p.Name = templates.PageSearch
 
 	// Fake search results
-	var results []searchResult
+	var results []SearchResult
 	if search := ctx.QueryParam("query"); search != "" {
 		for i := 0; i < 5; i++ {
 			title := "Lorem ipsum example ddolor sit amet"
 			index := rand.Intn(len(title))
 			title = title[:index] + search + title[index:]
-			results = append(results, searchResult{
+			results = append(results, SearchResult{
 				Title: title,
 				URL:   fmt.Sprintf("https://www.%s.com", search),
 			})

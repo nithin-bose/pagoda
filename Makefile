@@ -1,3 +1,14 @@
+# Install templ module
+.PHONY: templ-install
+templ-install:
+	go install github.com/a-h/templ/cmd/templ@latest
+
+# Generate templ
+.PHONY: templ-gen
+templ-gen:
+	templ fmt ./templ
+	templ generate
+
 # Install Ent code-generation module
 .PHONY: ent-install
 ent-install:

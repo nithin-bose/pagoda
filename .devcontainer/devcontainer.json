@@ -16,6 +16,14 @@
 	"forwardPorts": [
 		8000
 	],
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"a-h.templ",
+				"usernamehw.errorlens"
+			]
+		}
+	},
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "go version",

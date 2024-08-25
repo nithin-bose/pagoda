@@ -40,7 +40,7 @@ type (
 		services.TemplateRendererIface
 	}
 
-	forgotPasswordForm struct {
+	ForgotPasswordForm struct {
 		Email string `form:"email" validate:"required,email"`
 		form.Submission
 	}
@@ -51,7 +51,7 @@ type (
 		form.Submission
 	}
 
-	registerForm struct {
+	RegisterForm struct {
 		Name            string `form:"name" validate:"required"`
 		Email           string `form:"email" validate:"required,email"`
 		Password        string `form:"password" validate:"required"`
@@ -59,7 +59,7 @@ type (
 		form.Submission
 	}
 
-	resetPasswordForm struct {
+	ResetPasswordForm struct {
 		Password        string `form:"password" validate:"required"`
 		ConfirmPassword string `form:"password-confirm" validate:"required,eqfield=Password"`
 		form.Submission
@@ -103,13 +103,13 @@ func (h *Auth) ForgotPasswordPage(ctx echo.Context) error {
 	p.Layout = templates.LayoutAuth
 	p.Name = templates.PageForgotPassword
 	p.Title = "Forgot password"
-	p.Form = form.Get[forgotPasswordForm](ctx)
+	p.Form = form.Get[ForgotPasswordForm](ctx)
 
 	return h.RenderPage(ctx, p)
 }
 
 func (h *Auth) ForgotPasswordSubmit(ctx echo.Context) error {
-	var input forgotPasswordForm
+	var input ForgotPasswordForm
 
 	succeed := func() error {
 		form.Clear(ctx)
@@ -246,13 +246,13 @@ func (h *Auth) RegisterPage(ctx echo.Context) error {
 	p.Layout = templates.LayoutAuth
 	p.Name = templates.PageRegister
 	p.Title = "Register"
-	p.Form = form.Get[registerForm](ctx)
+	p.Form = form.Get[RegisterForm](ctx)
 
 	return h.RenderPage(ctx, p)
 }
 
 func (h *Auth) RegisterSubmit(ctx echo.Context) error {
-	var input registerForm
+	var input RegisterForm
 
 	err := form.Submit(ctx, &input)
 
@@ -352,13 +352,13 @@ func (h *Auth) ResetPasswordPage(ctx echo.Context) error {
 	p.Layout = templates.LayoutAuth
 	p.Name = templates.PageResetPassword
 	p.Title = "Reset password"
-	p.Form = form.Get[resetPasswordForm](ctx)
+	p.Form = form.Get[ResetPasswordForm](ctx)
 
 	return h.RenderPage(ctx, p)
 }
 
 func (h *Auth) ResetPasswordSubmit(ctx echo.Context) error {
-	var input resetPasswordForm
+	var input ResetPasswordForm
 
 	err := form.Submit(ctx, &input)
 

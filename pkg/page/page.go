@@ -1,10 +1,10 @@
 package page
 
 import (
-	"html/template"
 	"net/http"
 	"time"
 
+	"github.com/a-h/templ"
 	"github.com/mikestefanello/pagoda/ent"
 	"github.com/mikestefanello/pagoda/pkg/context"
 	"github.com/mikestefanello/pagoda/pkg/htmx"
@@ -120,6 +120,10 @@ type Page struct {
 		// These are useful when invalidating cache for dynamic events such as entity operations.
 		Tags []string
 	}
+
+	// TemplComponent stores the templ component which will be used when the page is rendered using TemplRenderer.
+	// TemplRenderer will raise an error if not set
+	TemplComponent templ.Component
 }
 
 // New creates and initiatizes a new Page for a given request context
@@ -152,11 +156,11 @@ func New(ctx echo.Context) Page {
 
 // GetMessages gets all flash messages for a given type.
 // This allows for easy access to flash messages from the templates.
-func (p Page) GetMessages(typ msg.Type) []template.HTML {
-	strs := msg.Get(p.Context, typ)
-	ret := make([]template.HTML, len(strs))
-	for k, v := range strs {
-		ret[k] = template.HTML(v)
-	}
-	return ret
+func (p Page) GetMessages(typ msg.Type) []string {
+	return msg.Get(p.Context, typ)
+	// ret := make([]template.HTML, len(strs))
+	// for k, v := range strs {
+	// 	ret[k] = template.HTML(v)
+	// }
+	// return ret
 }

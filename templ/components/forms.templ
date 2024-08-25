@@ -1,0 +1,13 @@
+package components
+
+import "github.com/mikestefanello/pagoda/pkg/page"
+
+templ CSRF(p *page.Page) {
+	<input type="hidden" name="csrf" value={ p.CSRF }/>
+}
+
+templ FieldErrors(errors []string) {
+	for _, error := range errors {
+		<p class="help is-danger">{ error }</p>
+	}
+}

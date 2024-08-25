@@ -22,7 +22,7 @@ type (
 		services.TemplateRendererIface
 	}
 
-	contactForm struct {
+	ContactForm struct {
 		Email      string `form:"email" validate:"required,email"`
 		Department string `form:"department" validate:"required,oneof=sales marketing hr"`
 		Message    string `form:"message" validate:"required"`
@@ -50,13 +50,13 @@ func (h *Contact) Page(ctx echo.Context) error {
 	p.Layout = templates.LayoutMain
 	p.Name = templates.PageContact
 	p.Title = "Contact us"
-	p.Form = form.Get[contactForm](ctx)
+	p.Form = form.Get[ContactForm](ctx)
 
 	return h.RenderPage(ctx, p)
 }
 
 func (h *Contact) Submit(ctx echo.Context) error {
-	var input contactForm
+	var input ContactForm
 
 	err := form.Submit(ctx, &input)
 

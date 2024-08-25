@@ -22,7 +22,7 @@ type (
 		services.TemplateRendererIface
 	}
 
-	cacheForm struct {
+	CacheForm struct {
 		Value string `form:"value"`
 		form.Submission
 	}
@@ -48,7 +48,7 @@ func (h *Cache) Page(ctx echo.Context) error {
 	p.Layout = templates.LayoutMain
 	p.Name = templates.PageCache
 	p.Title = "Set a cache entry"
-	p.Form = form.Get[cacheForm](ctx)
+	p.Form = form.Get[CacheForm](ctx)
 
 	// Fetch the value from the cache
 	value, err := h.cache.
@@ -69,7 +69,7 @@ func (h *Cache) Page(ctx echo.Context) error {
 }
 
 func (h *Cache) Submit(ctx echo.Context) error {
-	var input cacheForm
+	var input CacheForm
 
 	if err := form.Submit(ctx, &input); err != nil {
 		return err
