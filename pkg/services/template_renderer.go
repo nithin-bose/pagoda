@@ -7,13 +7,10 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/mikestefanello/pagoda/config"
 	"github.com/mikestefanello/pagoda/pkg/funcs"
+	"github.com/mikestefanello/pagoda/pkg/helpers"
 	"github.com/mikestefanello/pagoda/pkg/page"
+	"github.com/mikestefanello/pagoda/templates/layouts"
 )
-
-type TemplCtxKey string
-
-const TemplCtxKeyPage TemplCtxKey = "page"
-const TemplCtxKeyFuncs TemplCtxKey = "funcs"
 
 // TemplateRenderer provides a flexible and easy to use method of rendering Templ templates while
 // also providing caching and/or hot-reloading depending on your current environment
@@ -43,13 +40,15 @@ func (t *TemplateRenderer) RenderPage(ctx echo.Context, page *page.Page) error {
 
 	// Check if this is an HTMX non-boosted request which indicates that only partial
 	// content should be rendered
-	// if page.HTMX.Request.Enabled && !page.HTMX.Request.Boosted {
-	// 	// Switch the layout which will only render the page content
-	// 	page.Layout = templates.LayoutHTMX
+	if page.HTMX.Request.Enabled && !page.HTMX.Request.Boosted {
+		// Switch the layout which will only render the page content
+		page.TemplLayout = layouts.HTMX
+	}
 
-	// 	// Alter the template group so this is cached separately
-	// 	templateGroup = "page:htmx"
-	// }
+	// If not set defaults to layouts.Main
+	if page.TemplLayout == nil {
+		page.TemplLayout = layouts.Main
+	}
 
 	// Set the status code
 	ctx.Response().Status = page.StatusCode
@@ -64,12 +63,15 @@ func (t *TemplateRenderer) RenderPage(ctx echo.Context, page *page.Page) error {
 		page.HTMX.Response.Apply(ctx)
 	}
 
+	// Add Page and Funcs to templ context so they dont have to be passed around everywhere
+	templCtx := context.WithValue(ctx.Request().Context(), helpers.TemplCtxKeyPage, page)
+	templCtx = context.WithValue(templCtx, helpers.TemplCtxKeyFuncs, t.funcs)
+
+	//Render template
 	buf := templ.GetBuffer()
 	defer templ.ReleaseBuffer(buf)
 
-	templCtx := context.WithValue(ctx.Request().Context(), TemplCtxKeyPage, page)
-	templCtx = context.WithValue(templCtx, TemplCtxKeyFuncs, t.funcs)
-	err = page.TemplComponent.Render(templCtx, buf)
+	err = page.TemplLayout(page.TemplComponent).Render(templCtx, buf)
 	if err != nil {
 		return err
 	}

@@ -9,7 +9,6 @@ import (
 	"github.com/mikestefanello/pagoda/pkg/helpers"
 	"github.com/mikestefanello/pagoda/pkg/page"
 	"github.com/mikestefanello/pagoda/pkg/services"
-	"github.com/mikestefanello/pagoda/templates/layouts"
 	"github.com/mikestefanello/pagoda/templates/pages"
 )
 
@@ -43,7 +42,7 @@ func (h *Contact) Routes(g *echo.Group) {
 func (h *Contact) Page(ctx echo.Context) error {
 	p := page.New(ctx)
 	p.Title = "Contact us"
-	p.TemplComponent = layouts.Main(pages.Contact(form.Get[helpers.ContactForm](ctx)))
+	p.TemplComponent = pages.Contact(form.Get[helpers.ContactForm](ctx))
 
 	return h.RenderPage(ctx, p)
 }

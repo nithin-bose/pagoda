@@ -99,7 +99,11 @@ type Page struct {
 		Tags []string
 	}
 
-	// TemplComponent stores the templ component which will be used when the page is rendered using TemplRenderer.
+	// TemplLayout stores the templ function to which TemplComponent will be passed when the page is rendered.
+	// If not set defaults to layouts.Main
+	TemplLayout func(templ.Component) templ.Component
+
+	// TemplComponent stores the templ component which will be used when the page is rendered.
 	// TemplRenderer will raise an error if not set
 	TemplComponent templ.Component
 }

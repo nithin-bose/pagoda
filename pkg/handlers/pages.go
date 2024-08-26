@@ -7,7 +7,6 @@ import (
 	"github.com/mikestefanello/pagoda/pkg/helpers"
 	"github.com/mikestefanello/pagoda/pkg/page"
 	"github.com/mikestefanello/pagoda/pkg/services"
-	"github.com/mikestefanello/pagoda/templates/layouts"
 	"github.com/mikestefanello/pagoda/templates/pages"
 )
 
@@ -41,7 +40,7 @@ func (h *Pages) Home(ctx echo.Context) error {
 	p.Metatags.Description = "Welcome to the homepage."
 	p.Metatags.Keywords = []string{"Go", "MVC", "Web", "Software"}
 	p.Pager = page.NewPager(ctx, 4)
-	p.TemplComponent = layouts.Main(pages.Home(h.fetchPosts(&p.Pager)))
+	p.TemplComponent = pages.Home(h.fetchPosts(&p.Pager))
 
 	return h.RenderPage(ctx, p)
 }
@@ -97,7 +96,7 @@ func (h *Pages) About(ctx echo.Context) error {
 	// This page will be cached!
 	p.Cache.Enabled = true
 	p.Cache.Tags = []string{"page_about", "page:list"}
-	p.TemplComponent = layouts.Main(pages.About(&aboutData))
+	p.TemplComponent = pages.About(&aboutData)
 
 	return h.RenderPage(ctx, p)
 }

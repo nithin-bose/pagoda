@@ -9,7 +9,6 @@ import (
 	"github.com/mikestefanello/pagoda/pkg/helpers"
 	"github.com/mikestefanello/pagoda/pkg/page"
 	"github.com/mikestefanello/pagoda/pkg/services"
-	"github.com/mikestefanello/pagoda/templates/layouts"
 	"github.com/mikestefanello/pagoda/templates/pages"
 )
 
@@ -57,7 +56,7 @@ func (h *Cache) Page(ctx echo.Context) error {
 
 	p := page.New(ctx)
 	p.Title = "Set a cache entry"
-	p.TemplComponent = layouts.Main(pages.Cache(cachedValue, form.Get[helpers.CacheForm](ctx)))
+	p.TemplComponent = pages.Cache(cachedValue, form.Get[helpers.CacheForm](ctx))
 	return h.RenderPage(ctx, p)
 }
 

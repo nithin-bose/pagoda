@@ -24,7 +24,8 @@ func TestServeCachedPage(t *testing.T) {
 	p.StatusCode = http.StatusCreated
 	p.Headers["a"] = "b"
 	p.Headers["c"] = "d"
-	p.TemplComponent = layouts.HTMX(pages.Home(nil))
+	p.TemplLayout = layouts.HTMX
+	p.TemplComponent = pages.Home(nil)
 	err := c.TemplateRenderer.RenderPage(ctx, p)
 	output := rec.Body.Bytes()
 	require.NoError(t, err)

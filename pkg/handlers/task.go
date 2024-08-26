@@ -7,7 +7,6 @@ import (
 	"github.com/mikestefanello/backlite"
 	"github.com/mikestefanello/pagoda/pkg/helpers"
 	"github.com/mikestefanello/pagoda/pkg/msg"
-	"github.com/mikestefanello/pagoda/templates/layouts"
 	"github.com/mikestefanello/pagoda/templates/pages"
 
 	"github.com/go-playground/validator/v10"
@@ -49,7 +48,7 @@ func (h *Task) Page(ctx echo.Context) error {
 	p := page.New(ctx)
 	p.Title = "Create a task"
 
-	p.TemplComponent = layouts.Main(pages.Task(form.Get[helpers.TaskForm](ctx)))
+	p.TemplComponent = pages.Task(form.Get[helpers.TaskForm](ctx))
 
 	return h.RenderPage(ctx, p)
 }

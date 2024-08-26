@@ -8,7 +8,6 @@ import (
 	"github.com/mikestefanello/pagoda/pkg/log"
 	"github.com/mikestefanello/pagoda/pkg/page"
 	"github.com/mikestefanello/pagoda/pkg/services"
-	"github.com/mikestefanello/pagoda/templates/layouts"
 	"github.com/mikestefanello/pagoda/templates/pages"
 )
 
@@ -41,7 +40,7 @@ func (e *Error) Page(err error, ctx echo.Context) {
 	p.Title = http.StatusText(code)
 	p.StatusCode = code
 	p.HTMX.Request.Enabled = false
-	p.TemplComponent = layouts.Main(pages.Error())
+	p.TemplComponent = pages.Error()
 
 	if err = e.RenderPage(ctx, p); err != nil {
 		log.Ctx(ctx).Error("failed to render error page",

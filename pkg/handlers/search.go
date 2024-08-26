@@ -8,7 +8,6 @@ import (
 	"github.com/mikestefanello/pagoda/pkg/helpers"
 	"github.com/mikestefanello/pagoda/pkg/page"
 	"github.com/mikestefanello/pagoda/pkg/services"
-	"github.com/mikestefanello/pagoda/templates/layouts"
 	"github.com/mikestefanello/pagoda/templates/pages"
 )
 
@@ -49,6 +48,6 @@ func (h *Search) Page(ctx echo.Context) error {
 	}
 
 	p := page.New(ctx)
-	p.TemplComponent = layouts.Main(pages.Search(results))
+	p.TemplComponent = pages.Search(results)
 	return h.RenderPage(ctx, p)
 }

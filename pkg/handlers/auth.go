@@ -78,7 +78,8 @@ func (h *Auth) Routes(g *echo.Group) {
 func (h *Auth) ForgotPasswordPage(ctx echo.Context) error {
 	p := page.New(ctx)
 	p.Title = "Forgot password"
-	p.TemplComponent = layouts.Auth(pages.ForgotPassword(form.Get[helpers.ForgotPasswordForm](ctx)))
+	p.TemplLayout = layouts.Auth
+	p.TemplComponent = pages.ForgotPassword(form.Get[helpers.ForgotPasswordForm](ctx))
 
 	return h.RenderPage(ctx, p)
 }
@@ -145,7 +146,8 @@ func (h *Auth) ForgotPasswordSubmit(ctx echo.Context) error {
 func (h *Auth) LoginPage(ctx echo.Context) error {
 	p := page.New(ctx)
 	p.Title = "Log in"
-	p.TemplComponent = layouts.Auth(pages.Login(form.Get[helpers.LoginForm](ctx)))
+	p.TemplLayout = layouts.Auth
+	p.TemplComponent = pages.Login(form.Get[helpers.LoginForm](ctx))
 
 	return h.RenderPage(ctx, p)
 }
@@ -217,7 +219,8 @@ func (h *Auth) Logout(ctx echo.Context) error {
 func (h *Auth) RegisterPage(ctx echo.Context) error {
 	p := page.New(ctx)
 	p.Title = "Register"
-	p.TemplComponent = layouts.Auth(pages.Register(form.Get[helpers.RegisterForm](ctx)))
+	p.TemplLayout = layouts.Auth
+	p.TemplComponent = pages.Register(form.Get[helpers.RegisterForm](ctx))
 
 	return h.RenderPage(ctx, p)
 }
@@ -321,7 +324,8 @@ func (h *Auth) sendVerificationEmail(ctx echo.Context, usr *ent.User) {
 func (h *Auth) ResetPasswordPage(ctx echo.Context) error {
 	p := page.New(ctx)
 	p.Title = "Reset password"
-	p.TemplComponent = layouts.Auth(pages.ResetPassword(form.Get[helpers.ResetPasswordForm](ctx)))
+	p.TemplLayout = layouts.Auth
+	p.TemplComponent = pages.ResetPassword(form.Get[helpers.ResetPasswordForm](ctx))
 
 	return h.RenderPage(ctx, p)
 }

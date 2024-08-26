@@ -11,17 +11,17 @@ import templruntime "github.com/a-h/templ/runtime"
 import (
 	"context"
 	"github.com/mikestefanello/pagoda/pkg/funcs"
+	"github.com/mikestefanello/pagoda/pkg/helpers"
 	"github.com/mikestefanello/pagoda/pkg/page"
-	"github.com/mikestefanello/pagoda/pkg/services"
 	"strings"
 )
 
 func Funcs(ctx context.Context) *funcs.Funcs {
-	return ctx.Value(services.TemplCtxKeyFuncs).(*funcs.Funcs)
+	return ctx.Value(helpers.TemplCtxKeyFuncs).(*funcs.Funcs)
 }
 
 func Page(ctx context.Context) *page.Page {
-	return ctx.Value(services.TemplCtxKeyPage).(*page.Page)
+	return ctx.Value(helpers.TemplCtxKeyPage).(*page.Page)
 }
 
 func MetaTags() templ.Component {
