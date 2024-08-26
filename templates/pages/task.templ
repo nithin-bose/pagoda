@@ -19,7 +19,7 @@ templ Task(form *helpers.TaskForm) {
 }
 
 templ taskForm(form *helpers.TaskForm) {
-	<form id="task" method="post" hx-post={ string(templ.URL("task.submit")) }>
+	<form id="task" method="post" hx-post={ string(components.Funcs(ctx).URL("task.submit")) }>
 		@components.Messages()
 		<div class="field">
 			<label for="delay" class="label">Delay (in seconds)</label>

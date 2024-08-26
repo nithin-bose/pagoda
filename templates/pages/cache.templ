@@ -6,7 +6,7 @@ import (
 )
 
 templ Cache(cacheValue string, form *helpers.CacheForm) {
-	<form id="task" method="post" hx-post={ string(templ.URL("cache.submit")) }>
+	<form id="task" method="post" hx-post={ string(components.Funcs(ctx).URL("cache.submit")) }>
 		<article class="message">
 			<div class="message-header">
 				<p>Test the cache</p>

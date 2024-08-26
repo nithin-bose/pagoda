@@ -5,6 +5,7 @@ import (
 	"reflect"
 	"strings"
 
+	"github.com/a-h/templ"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/random"
 	"github.com/mikestefanello/pagoda/config"
@@ -42,16 +43,16 @@ func (fm *Funcs) File(filepath string) string {
 }
 
 // Link outputs HTML for a link element, providing the ability to dynamically set the active class
-func (fm *Funcs) Link(url, text, currentPath string, classes ...string) string {
-	if currentPath == url {
+func (fm *Funcs) Link(routeName, text, currentPath string, classes ...string) string {
+	url := fm.URL(routeName)
+	if currentPath == string(url) {
 		classes = append(classes, "is-active")
 	}
 
-	html := fmt.Sprintf(`<a class="%s" href="%s">%s</a>`, strings.Join(classes, " "), url, text)
-	return html
+	return fmt.Sprintf(`<a class="%s" href="%s">%s</a>`, strings.Join(classes, " "), url, text)
 }
 
 // URL generates a URL from a given route name and optional parameters
-func (fm *Funcs) URL(routeName string, params ...any) string {
-	return fm.web.Reverse(routeName, params...)
+func (fm *Funcs) URL(routeName string, params ...any) templ.SafeURL {
+	return templ.URL(fm.web.Reverse(routeName, params...))
 }

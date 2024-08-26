@@ -50,8 +50,7 @@ templ postsContent(posts []helpers.Post) {
 			<article class="media">
 				<figure class="media-left">
 					<p class="image is-64x64">
-						<!-- <img src="{{file "gopher.png"}}" alt="Gopher"/> -->
-						image
+						<img src={ components.Funcs(ctx).File("gopher.png") } alt="Gopher"/>
 					</p>
 				</figure>
 				<div class="media-content">

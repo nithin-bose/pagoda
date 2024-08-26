@@ -7,7 +7,7 @@ import (
 )
 
 templ Register(form *helpers.RegisterForm) {
-	<form method="post" hx-boost="true" action={ templ.URL("register.submit") }>
+	<form method="post" hx-boost="true" action={ components.Funcs(ctx).URL("register.submit") }>
 		<div class="field">
 			<label for="name" class="label">Name</label>
 			<div class="control">
@@ -41,7 +41,7 @@ templ Register(form *helpers.RegisterForm) {
 				<button class="button is-primary">Register</button>
 			</p>
 			<p class="control">
-				<a href={ templ.URL("home") } class="button is-light">Cancel</a>
+				<a href={ components.Funcs(ctx).URL("home") } class="button is-light">Cancel</a>
 			</p>
 		</div>
 		@components.CSRF()

@@ -29,7 +29,7 @@ templ contactForm(form *helpers.ContactForm) {
 			</div>
 		</article>
 	} else {
-		<form id="contact" method="post" hx-post={ string(templ.URL("contact.submit")) }>
+		<form id="contact" method="post" hx-post={ string(components.Funcs(ctx).URL("contact.submit")) }>
 			<div class="field">
 				<label for="email" class="label">Email address</label>
 				<div class="control">

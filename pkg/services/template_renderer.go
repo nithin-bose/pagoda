@@ -6,12 +6,14 @@ import (
 	"github.com/a-h/templ"
 	"github.com/labstack/echo/v4"
 	"github.com/mikestefanello/pagoda/config"
+	"github.com/mikestefanello/pagoda/pkg/funcs"
 	"github.com/mikestefanello/pagoda/pkg/page"
 )
 
 type TemplCtxKey string
 
 const TemplCtxKeyPage TemplCtxKey = "page"
+const TemplCtxKeyFuncs TemplCtxKey = "funcs"
 
 // TemplateRenderer provides a flexible and easy to use method of rendering Templ templates while
 // also providing caching and/or hot-reloading depending on your current environment
@@ -21,13 +23,17 @@ type TemplateRenderer struct {
 
 	// config stores application configuration
 	config *config.Config
+
+	// funcs stores functions to be used in templates
+	funcs *funcs.Funcs
 }
 
 // NewTemplateRenderer creates a new TemplRenderer
-func NewTemplateRenderer(cfg *config.Config, cache *CacheClient) *TemplateRenderer {
+func NewTemplateRenderer(cfg *config.Config, cache *CacheClient, web *echo.Echo) *TemplateRenderer {
 	return &TemplateRenderer{
 		pageCache: NewPageCache(cfg, cache),
 		config:    cfg,
+		funcs:     funcs.NewFuncs(web),
 	}
 }
 
@@ -62,6 +68,7 @@ func (t *TemplateRenderer) RenderPage(ctx echo.Context, page *page.Page) error {
 	defer templ.ReleaseBuffer(buf)
 
 	templCtx := context.WithValue(ctx.Request().Context(), TemplCtxKeyPage, page)
+	templCtx = context.WithValue(templCtx, TemplCtxKeyFuncs, t.funcs)
 	err = page.TemplComponent.Render(templCtx, buf)
 	if err != nil {
 		return err

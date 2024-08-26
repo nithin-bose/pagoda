@@ -7,7 +7,7 @@ import (
 )
 
 templ Login(form *helpers.LoginForm) {
-	<form method="post" hx-boost="true" action={ templ.URL("login.submit") }>
+	<form method="post" hx-boost="true" action={ components.Funcs(ctx).URL("login.submit") }>
 		@components.Messages()
 		<div class="field">
 			<label for="email" class="label">Email address</label>
@@ -28,7 +28,7 @@ templ Login(form *helpers.LoginForm) {
 				<button class="button is-primary">Log in</button>
 			</p>
 			<p class="control">
-				<a href={ templ.URL("home") } class="button is-light">Cancel</a>
+				<a href={ components.Funcs(ctx).URL("home") } class="button is-light">Cancel</a>
 			</p>
 		</div>
 		@components.CSRF()

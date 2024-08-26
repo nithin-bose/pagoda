@@ -14,7 +14,7 @@ templ Main(contents templ.Component) {
 			<nav class="navbar is-dark">
 				<div class="container">
 					<div class="navbar-brand" hx-boost="true">
-						<a href={ templ.URL("home") } class="navbar-item">{ components.Page(ctx).AppName }</a>
+						<a href={ components.Funcs(ctx).URL("home") } class="navbar-item">{ components.Page(ctx).AppName }</a>
 					</div>
 					<div id="navbarMenu" class="navbar-menu">
 						<div class="navbar-end">
@@ -28,29 +28,39 @@ templ Main(contents templ.Component) {
 					<div class="column is-2">
 						<aside class="menu" hx-boost="true">
 							<p class="menu-label">General</p>
-							<!--
-                            <ul class="menu-list">
-                                <li>{{link (url "home") "Dashboard" .Path}}</li>
-                                <li>{{link (url "about") "About" .Path}}</li>
-                                <li>{{link (url "contact") "Contact" .Path}}</li>
-                                <li>{{link (url "cache") "Cache" .Path}}</li>
-                                <li>{{link (url "task") "Task" .Path}}</li>
-                            </ul>
-                            -->
+							<ul class="menu-list">
+								<li>
+									@templ.Raw(components.Funcs(ctx).Link("home", "Dashboard", components.Page(ctx).Path))
+								</li>
+								<li>
+									@templ.Raw(components.Funcs(ctx).Link("about", "About", components.Page(ctx).Path))
+								</li>
+								<li>
+									@templ.Raw(components.Funcs(ctx).Link("contact", "Contact", components.Page(ctx).Path))
+								</li>
+								<li>
+									@templ.Raw(components.Funcs(ctx).Link("cache", "Cache", components.Page(ctx).Path))
+								</li>
+								<li>
+									@templ.Raw(components.Funcs(ctx).Link("task", "Task", components.Page(ctx).Path))
+								</li>
+							</ul>
 							<p class="menu-label">Account</p>
 							<ul class="menu-list">
 								if components.Page(ctx).IsAuth {
-									<li>Auth </li>
-									<!--
-                                    <li>{{link (url "logout") "Logout" .Path}}</li>
-                                    -->
+									<li>
+										@templ.Raw(components.Funcs(ctx).Link("logout", "Logout", components.Page(ctx).Path))
+									</li>
 								} else {
-									<li>No Auth </li>
-									<!--
-                                    <li>{{link (url "login") "Login" .Path}}</li>
-                                    <li>{{link (url "register") "Register" .Path}}</li>
-                                    <li>{{link (url "forgot_password") "Forgot password" .Path}}</li>
-                                    -->
+									<li>
+										@templ.Raw(components.Funcs(ctx).Link("login", "Login", components.Page(ctx).Path))
+									</li>
+									<li>
+										@templ.Raw(components.Funcs(ctx).Link("register", "Register", components.Page(ctx).Path))
+									</li>
+									<li>
+										@templ.Raw(components.Funcs(ctx).Link("forgot_password", "Forgot password", components.Page(ctx).Path))
+									</li>
 								}
 							</ul>
 						</aside>
@@ -81,7 +91,7 @@ templ search() {
 					<h2 class="subtitle">Search</h2>
 					<p class="control">
 						<input
-							hx-get={ string(templ.URL("search")) }
+							hx-get={ string(components.Funcs(ctx).URL("search")) }
 							hx-trigger="keyup changed delay:500ms"
 							hx-target="#results"
 							name="query"

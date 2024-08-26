@@ -161,7 +161,7 @@ func (c *Container) initAuth() {
 
 // initTemplateRenderer initializes the template renderer
 func (c *Container) initTemplateRenderer() {
-	c.TemplateRenderer = NewTemplateRenderer(c.Config, c.Cache)
+	c.TemplateRenderer = NewTemplateRenderer(c.Config, c.Cache, c.Web)
 }
 
 // initMail initialize the mail client
