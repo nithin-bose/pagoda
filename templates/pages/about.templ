@@ -35,12 +35,17 @@ templ tabsContent(tabs []helpers.AboutTab) {
 		<div class="tabs">
 			<ul>
 				for index, tab := range tabs {
-					<li :class={ fmt.Sprintf("{'is-active': tab === %d", index) } @click={ fmt.Sprintf("tab = %d", index) }><a>{ tab.Title }</a></li>
+					<li :class={ fmt.Sprintf("{'is-active': tab === %d}", index) } @click={ fmt.Sprintf("tab = %d", index) }><a>{ tab.Title }</a></li>
 				}
 			</ul>
 		</div>
 		for index, tab := range tabs {
-			<div x-show={ fmt.Sprintf("tab == %d", index) }><p>&rarr; { tab.Body }</p></div>
+			<div x-show={ fmt.Sprintf("tab == %d", index) }>
+				<p>
+					&rarr; 
+					@templ.Raw(tab.Body)
+				</p>
+			</div>
 		}
 	</div>
 }

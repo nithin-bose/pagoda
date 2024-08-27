@@ -1,9 +1,9 @@
 package services
 
 import (
+	"bytes"
 	"context"
 
-	"github.com/a-h/templ"
 	"github.com/labstack/echo/v4"
 	"github.com/mikestefanello/pagoda/config"
 	"github.com/mikestefanello/pagoda/pkg/funcs"
@@ -68,9 +68,7 @@ func (t *TemplateRenderer) RenderPage(ctx echo.Context, page *page.Page) error {
 	templCtx = context.WithValue(templCtx, helpers.TemplCtxKeyFuncs, t.funcs)
 
 	//Render template
-	buf := templ.GetBuffer()
-	defer templ.ReleaseBuffer(buf)
-
+	buf := &bytes.Buffer{}
 	err = page.TemplLayout(page.TemplComponent).Render(templCtx, buf)
 	if err != nil {
 		return err

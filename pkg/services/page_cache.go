@@ -2,7 +2,6 @@ package services
 
 import (
 	"bytes"
-	"fmt"
 
 	"github.com/labstack/echo/v4"
 	"github.com/mikestefanello/pagoda/config"
@@ -103,12 +102,4 @@ func (pc *pageCache) GetCachedPage(ctx echo.Context, url string) (*CachedPage, e
 	}
 
 	return p.(*CachedPage), nil
-}
-
-// getCacheKey gets a cache key for a given group and ID
-func (pc *pageCache) getCacheKey(group, key string) string {
-	if group != "" {
-		return fmt.Sprintf("%s:%s", group, key)
-	}
-	return key
 }
