@@ -8,7 +8,11 @@ templ Error() {
 	} else if components.Page(ctx).StatusCode == 403 || components.Page(ctx).StatusCode == 401 {
 		<p>You are not authorized to view the requested page.</p>
 	} else if components.Page(ctx).StatusCode == 404 {
-		<p>Click @templ.Raw(components.Funcs(ctx).Link("home", "Home", components.Page(ctx).Path)) to return home </p>
+		<p>
+			Click &nbsp;
+			@templ.Raw(components.Funcs(ctx).Link("home", "here", components.Page(ctx).Path))
+			&nbsp; to return home 
+		</p>
 	} else {
 		<p>Something went wrong</p>
 	}

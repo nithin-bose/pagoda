@@ -39,7 +39,15 @@ func Error() templ.Component {
 				return templ_7745c5c3_Err
 			}
 		} else if components.Page(ctx).StatusCode == 404 {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p>Click @templ.Raw(components.Funcs(ctx).Link(\"home\", \"Home\", components.Page(ctx).Path)) to return home </p>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p>Click &nbsp;")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templ.Raw(components.Funcs(ctx).Link("home", "here", components.Page(ctx).Path)).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("&nbsp; to return home </p>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
