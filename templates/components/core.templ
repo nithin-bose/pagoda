@@ -54,10 +54,11 @@ templ JS() {
 
 templ Footer() {
 	if Page(ctx).CSRF != "" {
+		@templ.Raw(fmt.Sprintf(`<script id="csrf" type="application/json">%s</script>`, Page(ctx).CSRF))
 		<script>
             document.body.addEventListener('htmx:configRequest', function(evt)  {
                 if (evt.detail.verb !== "get") {
-                    evt.detail.parameters['csrf'] = { Page(ctx).CSRF };
+                    evt.detail.parameters['csrf'] = document.getElementById('csrf').textContent;
                 }
             })
         </script>

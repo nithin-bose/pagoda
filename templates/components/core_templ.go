@@ -231,7 +231,11 @@ func Footer() templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		if Page(ctx).CSRF != "" {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script>\n            document.body.addEventListener('htmx:configRequest', function(evt)  {\n                if (evt.detail.verb !== \"get\") {\n                    evt.detail.parameters['csrf'] = { Page(ctx).CSRF };\n                }\n            })\n        </script>")
+			templ_7745c5c3_Err = templ.Raw(fmt.Sprintf(`<script id="csrf" type="application/json">%s</script>`, Page(ctx).CSRF)).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" <script>\n            document.body.addEventListener('htmx:configRequest', function(evt)  {\n                if (evt.detail.verb !== \"get\") {\n                    evt.detail.parameters['csrf'] = document.getElementById('csrf').textContent;\n                }\n            })\n        </script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
