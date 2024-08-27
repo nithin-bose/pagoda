@@ -10,6 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"context"
+	"fmt"
 	"github.com/mikestefanello/pagoda/pkg/funcs"
 	"github.com/mikestefanello/pagoda/pkg/helpers"
 	"github.com/mikestefanello/pagoda/pkg/page"
@@ -22,6 +23,14 @@ func Funcs(ctx context.Context) *funcs.Funcs {
 
 func Page(ctx context.Context) *page.Page {
 	return ctx.Value(helpers.TemplCtxKeyPage).(*page.Page)
+}
+
+func NextPageLink(ctx context.Context) string {
+	return fmt.Sprintf("/?page=%d", Page(ctx).Pager.Page+1)
+}
+
+func PreviousPageLink(ctx context.Context) string {
+	return fmt.Sprintf("%s?page=%d", Page(ctx).Path, Page(ctx).Pager.Page-1)
 }
 
 func MetaTags() templ.Component {
@@ -50,7 +59,7 @@ func MetaTags() templ.Component {
 			var templ_7745c5c3_Var2 string
 			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(Page(ctx).AppName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/components/core.templ`, Line: 21, Col: 28}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/components/core.templ`, Line: 30, Col: 28}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {
@@ -63,7 +72,7 @@ func MetaTags() templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(Page(ctx).Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/components/core.templ`, Line: 21, Col: 50}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/components/core.templ`, Line: 30, Col: 50}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -81,7 +90,7 @@ func MetaTags() templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(Page(ctx).AppName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/components/core.templ`, Line: 23, Col: 28}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/components/core.templ`, Line: 32, Col: 28}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -99,7 +108,7 @@ func MetaTags() templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(Funcs(ctx).File("favicon.png"))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/components/core.templ`, Line: 25, Col: 55}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/components/core.templ`, Line: 34, Col: 55}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -117,7 +126,7 @@ func MetaTags() templ.Component {
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(Page(ctx).Metatags.Description)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/components/core.templ`, Line: 30, Col: 67}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/components/core.templ`, Line: 39, Col: 67}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
@@ -136,7 +145,7 @@ func MetaTags() templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(strings.Join(Page(ctx).Metatags.Keywords, ","))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/components/core.templ`, Line: 33, Col: 80}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/components/core.templ`, Line: 42, Col: 80}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {

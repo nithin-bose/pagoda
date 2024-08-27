@@ -2,6 +2,7 @@ package components
 
 import (
 	"context"
+	"fmt"
 	"github.com/mikestefanello/pagoda/pkg/funcs"
 	"github.com/mikestefanello/pagoda/pkg/helpers"
 	"github.com/mikestefanello/pagoda/pkg/page"
@@ -14,6 +15,14 @@ func Funcs(ctx context.Context) *funcs.Funcs {
 
 func Page(ctx context.Context) *page.Page {
 	return ctx.Value(helpers.TemplCtxKeyPage).(*page.Page)
+}
+
+func NextPageLink(ctx context.Context) string {
+	return fmt.Sprintf("/?page=%d", Page(ctx).Pager.Page+1)
+}
+
+func PreviousPageLink(ctx context.Context) string {
+	return fmt.Sprintf("%s?page=%d", Page(ctx).Path, Page(ctx).Pager.Page-1)
 }
 
 templ MetaTags() {

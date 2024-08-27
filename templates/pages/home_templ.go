@@ -192,13 +192,39 @@ func postsContent(posts []helpers.Post) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if !components.Page(ctx).Pager.IsBeginning() {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p class=\"control\"><button class=\"button is-primary\" hx-swap=\"outerHTML\" hx-get=\"/?page={ components.Page(ctx).Pager.Page - 1 }\" hx-target=\"#posts\">Previous page</button></p>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p class=\"control\"><button class=\"button is-primary\" hx-swap=\"outerHTML\" hx-get=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var8 string
+			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(components.PreviousPageLink(ctx))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/pages/home.templ`, Line: 70, Col: 100}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"#posts\">Previous page</button></p>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
 		if !components.Page(ctx).Pager.IsEnd() {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p class=\"control\"><button class=\"button is-primary\" hx-swap=\"outerHTML\" hx-get=\"/?page={ components.Page(ctx).Pager.Page + 1 }\" hx-target=\"#posts\">Next page</button></p>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p class=\"control\"><button class=\"button is-primary\" hx-swap=\"outerHTML\" hx-get=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var9 string
+			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(components.NextPageLink(ctx))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/pages/home.templ`, Line: 75, Col: 96}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"#posts\">Next page</button></p>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -224,9 +250,9 @@ func fileMsg() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var8 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var8 == nil {
-			templ_7745c5c3_Var8 = templ.NopComponent
+		templ_7745c5c3_Var10 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var10 == nil {
+			templ_7745c5c3_Var10 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"block\"></div><article class=\"message is-small is-warning\" x-data=\"{show: true}\" x-show=\"show\"><div class=\"message-header\"><p>Serving files</p><button class=\"delete is-small\" aria-label=\"delete\" @click=\"show = false\"></button></div><div class=\"message-body\">In the example posts above, check how the file URL contains a cache-buster query parameter which changes only when the app is restarted. Static files also contain cache-control headers which are configured via middleware. You can also use AlpineJS to dismiss this message.</div></article>")

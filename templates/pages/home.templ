@@ -67,12 +67,12 @@ templ postsContent(posts []helpers.Post) {
 		<div class="field is-grouped is-grouped-centered">
 			if !components.Page(ctx).Pager.IsBeginning() {
 				<p class="control">
-					<button class="button is-primary" hx-swap="outerHTML" hx-get="/?page={ components.Page(ctx).Pager.Page - 1 }" hx-target="#posts">Previous page</button>
+					<button class="button is-primary" hx-swap="outerHTML" hx-get={ components.PreviousPageLink(ctx) } hx-target="#posts">Previous page</button>
 				</p>
 			}
 			if !components.Page(ctx).Pager.IsEnd() {
 				<p class="control">
-					<button class="button is-primary" hx-swap="outerHTML" hx-get="/?page={ components.Page(ctx).Pager.Page + 1 }" hx-target="#posts">Next page</button>
+					<button class="button is-primary" hx-swap="outerHTML" hx-get={ components.NextPageLink(ctx) } hx-target="#posts">Next page</button>
 				</p>
 			}
 		</div>
